@@ -10,7 +10,8 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
-import Login from "./Login"
+import Login from "./Login";
+import Register from "./Register";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -141,17 +142,19 @@ function App() {
             />
           </Route>
           <Route path="/signin">
-            <Login 
-              title="Вход"
-              buttonText="Войти"
-
-              />
+            <Login title="Вход" buttonText="Войти" />
+          </Route>
+          <Route path="/signup">
+            <Register
+            title="Регистрация"
+            buttonText="Зарегистрироваться"
+            />
           </Route>
           <Route exact path="/">
             {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}
           </Route>
         </Switch>
-        
+
         <Footer />
         <ImagePopup
           name="big-image"

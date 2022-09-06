@@ -1,6 +1,6 @@
 import React from "react";
 
-function Login({ title, buttonText }) {
+function Register({ title, buttonText }) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -14,7 +14,7 @@ function Login({ title, buttonText }) {
         setPassword(e.target.value)
     }
 
-    const handleSubmit = (e) => { // отправить данные на проверку
+    const handleSubmit = (e) => { // отправить данные на хранение на сервер
         e.preventDefault();
         console.log(email, password)
     }
@@ -62,6 +62,9 @@ function Login({ title, buttonText }) {
           >
             {buttonText}
           </button>
+          <p>
+            Уже зарегистрированы? Войти
+          </p>
         </form>
         </div>
         
@@ -69,5 +72,4 @@ function Login({ title, buttonText }) {
     </>
   );
 }
-
-export default Login;
+export default Register;
