@@ -142,7 +142,6 @@ function App() {
           </Route>
           <Route path="/signin">
             <Login 
-              
               title="Вход"
               buttonText="Войти"
 
