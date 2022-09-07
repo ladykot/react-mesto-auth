@@ -5,18 +5,8 @@ function Login({ title, buttonText }) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-
-    const handleChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
-
-    const handleChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
-
-    const handleSubmit = (e) => { // отправить данные на проверку
+    const handleLoginSubmit = (e) => { // отправить данные на проверку
         e.preventDefault();
-        console.log(email, password)
     }
 
     React.useEffect(() => {
@@ -26,9 +16,9 @@ function Login({ title, buttonText }) {
 
   return (
     <>
-      <section className={`popup popup_type_create-card popup_opened`}>
+      <section className={`popup popup_type_signin popup_opened`}>
         <div className={`popup__container`}>
-        <form className="popup__form" onSubmit={handleSubmit} noValidate>
+        <form className="popup__form" onSubmit={handleLoginSubmit} noValidate>
           <h3 className="popup__title">{title}</h3>
           <fieldset className="popup__inputs">
             <input
@@ -36,7 +26,7 @@ function Login({ title, buttonText }) {
               id="email-input"
               name="email"
               value={email || ""}
-              onChange={handleChangeEmail}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               className="popup__inputs-item popup__inputs-item_type_title"
               required
@@ -49,7 +39,7 @@ function Login({ title, buttonText }) {
               id="password-input"
               name="password"
               value={password || ""}
-              onChange={handleChangePassword}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Пароль"
               className="popup__inputs-item popup__inputs-item_type_link"
               required

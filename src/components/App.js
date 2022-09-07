@@ -12,6 +12,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import Login from "./Login";
 import Register from "./Register";
+import InfoTooltip from "./InfoTooltip";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -25,6 +26,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({}); // текущий пользователь
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false); // попап успешной регистрации закрыт
 
   React.useEffect(() => {
     Promise.all([api.getInitialCards(), api.getProfileData()])
@@ -82,6 +84,11 @@ function App() {
     setPopupWithSubmitOpen(true);
   };
 
+  const handleRegisterClick = () => {
+    setInfoTooltipOpen(true);
+    // отправить данные на сервер
+  };
+
   // состояния закрытия
   const closeAllPopups = () => {
     setEditProfilePopupOpen(false);
@@ -89,6 +96,7 @@ function App() {
     setAddPlacePopupOpen(false);
     setSelectedCard(null);
     setPopupWithSubmitOpen(false);
+    setInfoTooltipOpen(false);
   };
 
   // добавление новых данных в профиле
@@ -146,9 +154,13 @@ function App() {
           </Route>
           <Route path="/signup">
             <Register
-            title="Регистрация"
-            buttonText="Зарегистрироваться"
-            />
+              title="Регистрация"
+              buttonText="Зарегистрироваться"
+              onSubmit={handleRegisterClick}
+              isOpen={isInfoTooltipOpen}
+            >
+             
+            </Register>
           </Route>
           <Route exact path="/">
             {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}
@@ -162,6 +174,7 @@ function App() {
           card={isSelectedCard}
           onClose={closeAllPopups}
         />
+
         <EditProfilePopup
           title="Редактировать профиль"
           isOpen={isEditProfilePopupOpen}
