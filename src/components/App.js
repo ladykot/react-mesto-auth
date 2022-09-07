@@ -12,6 +12,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import Login from "./Login";
 import Register from "./Register";
+import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -158,13 +159,14 @@ function App() {
               buttonText="Зарегистрироваться"
               onSubmit={handleRegisterClick}
               isOpen={isInfoTooltipOpen}
-            >
-             
-            </Register>
+            />
           </Route>
-          <Route exact path="/">
-            {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}
-          </Route>
+          <ProtectedRoute
+            exact path="/"
+            loggedIn={loggedIn}
+            component={Login}
+            />
+            {/* {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />} */}
         </Switch>
 
         <Footer />
