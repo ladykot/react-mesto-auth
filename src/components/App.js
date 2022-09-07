@@ -29,6 +29,17 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false); // попап успешной регистрации закрыт
 
+  // React.useEffect(() => {
+  //   tokenChek();
+  // }, [])
+
+  // const tokenChek = () = {
+  //   if(localStorage.getItem('jwt')){
+  //     let jwt = localStorage.getItem('jwt');
+
+  //   }
+  // }
+
   React.useEffect(() => {
     Promise.all([api.getInitialCards(), api.getProfileData()])
       .then(([cards, data]) => {

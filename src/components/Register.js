@@ -1,5 +1,7 @@
 import React from "react";
 import InfoTooltip from "./InfoTooltip";
+import { Link } from 'react-router-dom';
+import * as auth from "./Auth"
 
 function Register({ title, buttonText, isOpen, onAddUser, onClose }) {
   const [email, setEmail] = React.useState("");
@@ -11,13 +13,19 @@ function Register({ title, buttonText, isOpen, onAddUser, onClose }) {
     setPassword("");
   }, []);
 
+
+
+  // обработка сабмита регистрации
   const handeleRegisterSubmit = (e) => {
     e.preventDefault();
-    onAddUser({
+    auth.register(
       email,
       password
+    )
+    .then((res) => {
+      console.log(res)
     })
-    // обработка сабмита регистрации
+    
   }
 
   return (
@@ -58,7 +66,10 @@ function Register({ title, buttonText, isOpen, onAddUser, onClose }) {
             >
               {buttonText}
             </button>
-            <p>Уже зарегистрированы? Войти</p>
+            <div className="popup__signin">
+              <p>Уже зарегистрированы?</p>
+              <Link to="signin" className="popup__login-link">Войти</Link>
+            </div>
           </form>
         </div>
       </section>
@@ -66,7 +77,6 @@ function Register({ title, buttonText, isOpen, onAddUser, onClose }) {
         name="success"
         isOpen={handeleRegisterSubmit && isOpen} // открыто когда нажата кнопка Зарегистрироваться
         onClose={onClose}
-        title="Вы успешно зарегистрировались!"
       />
     </>
   );

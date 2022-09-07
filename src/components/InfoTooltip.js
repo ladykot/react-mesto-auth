@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
-function InfoTooltip ({ name, isOpen, onClose, title }) {
+function InfoTooltip ({ name, isOpen, onClose }) {
+  const [successTitle, setSuccessTitle] = useState('');
+  const [successImage, setSuccessImage] = useState('');
+
     return (
         <section
         className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}
@@ -19,7 +22,7 @@ function InfoTooltip ({ name, isOpen, onClose, title }) {
             className="popup__button-close popup__button-close_type_edit hover"
           ></button>
           <form className="popup__form">
-            <h3 className="popup__title">{title}</h3>
+            <h3 className="popup__title">Заголовок</h3>
           </form>
         </div>
       </section>
