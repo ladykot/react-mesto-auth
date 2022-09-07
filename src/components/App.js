@@ -85,10 +85,19 @@ function App() {
     setPopupWithSubmitOpen(true);
   };
 
-  const handleRegisterClick = () => {
+  // добавить нового пользователя
+  const handleRegisterClick = ({email, password}) => {
     setInfoTooltipOpen(true);
-    // отправить данные на сервер
+    console.log(email, password)
+    // отправить данные на сервер и закрыть окно
   };
+
+  const handleLoginClick =({email, password}) => {
+    // если логин валиден, если он есть в localstage, 
+    // в хендлере отображается почта
+    // открыт весь контент
+    console.log(email, password)
+  }
 
   // состояния закрытия
   const closeAllPopups = () => {
@@ -151,20 +160,25 @@ function App() {
             />
           </Route>
           <Route path="/signin">
-            <Login title="Вход" buttonText="Войти" />
+            <Login
+              title="Вход"
+              buttonText="Войти"
+              onLoginUser={handleLoginClick}
+              />
           </Route>
           <Route path="/signup">
             <Register
               title="Регистрация"
               buttonText="Зарегистрироваться"
-              onSubmit={handleRegisterClick}
+              onAddUser={handleRegisterClick}
               isOpen={isInfoTooltipOpen}
+              onClose={closeAllPopups}
             />
           </Route>
           <ProtectedRoute
             exact path="/"
             loggedIn={loggedIn}
-            component={Login}
+            component={Main}
             />
             {/* {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />} */}
         </Switch>

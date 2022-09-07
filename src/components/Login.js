@@ -1,14 +1,19 @@
 import React from "react";
 
-function Login({ title, buttonText }) {
+function Login({ title, buttonText, onLoginUser }) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
     const handleLoginSubmit = (e) => { // отправить данные на проверку
         e.preventDefault();
+        onLoginUser({
+          email,
+          password
+        })
     }
 
+    // reset email & password
     React.useEffect(() => {
         setEmail("");
         setPassword("");

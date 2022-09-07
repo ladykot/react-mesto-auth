@@ -1,7 +1,7 @@
 import React from "react";
 import InfoTooltip from "./InfoTooltip";
 
-function Register({ title, buttonText, isOpen }) {
+function Register({ title, buttonText, isOpen, onAddUser, onClose }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -11,7 +11,12 @@ function Register({ title, buttonText, isOpen }) {
     setPassword("");
   }, []);
 
-  const handeleRegisterSubmit = () => {
+  const handeleRegisterSubmit = (e) => {
+    e.preventDefault();
+    onAddUser({
+      email,
+      password
+    })
     // обработка сабмита регистрации
   }
 
@@ -60,7 +65,8 @@ function Register({ title, buttonText, isOpen }) {
       <InfoTooltip
         name="success"
         isOpen={handeleRegisterSubmit && isOpen} // открыто когда нажата кнопка Зарегистрироваться
-        onClose={onclose}
+        onClose={onClose}
+        title="Вы успешно зарегистрировались!"
       />
     </>
   );
