@@ -30,3 +30,24 @@ export const getContent = (token) => {
   .then((res) => res.json())
   .then((data) => data);
 };
+
+export const authorize = (email, password) => {
+  return fetch(`${BASE_URL}/auth/local`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.user) {
+        localStorage.setItem("jwt", data.jwt);
+        return data;
+      } else {
+        return;
+      }
+    })
+    .catch((err) => console.log(err));
+};

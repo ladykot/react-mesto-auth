@@ -41,6 +41,18 @@ function App() {
     }
   }, [loggedIn]);
 
+  // авторизация и запись токена в хранилище
+  const onLogin = ({email, password}) => {
+     return userAuth
+     .authorize(email, password)
+     .then((data) => {
+      if(data.jwt) {
+        setLoggedIn(true);
+        localStorage.setItem('jwt', data.jwt)
+        
+      }
+     })
+  }
 
   // Аутотенфикация: если токен валиден, сохраняем данные и пользователь логинится
   const auth = async (jwt) => {
@@ -197,6 +209,7 @@ function App() {
             <Login
               title="Вход"
               buttonText="Войти"
+              onLogin={onLogin}
               onLoginUser={handleLoginClick}
               />
           </Route>

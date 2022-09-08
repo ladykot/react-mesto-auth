@@ -1,13 +1,19 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
-function Login({ title, buttonText, onLoginUser }) {
+function Login({ title, buttonText, onLogin }) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const history = useHistory();
 
     const handleLoginSubmit = (e) => { // отправить данные на проверку
         e.preventDefault();
-        
+        onLogin({email, password})
+        .then(() => {
+          history.push('/main')
+        })
+        .catch((err) => console.log(err));
     }
 
     // reset email & password
