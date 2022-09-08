@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import "../index.css";
 import Footer from "./Footer";
-// import logo from '../images/logo.svg'
+
 import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
@@ -12,8 +12,9 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import Login from "./Login";
 import Register from "./Register";
+import * as userAuth from './Auth'
 import ProtectedRoute from "./ProtectedRoute";
-import InfoTooltip from "./InfoTooltip";
+
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -25,20 +26,42 @@ function App() {
   const [isSelectedCard, setSelectedCard] = useState(null);
   const [removedCard, setRemovedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({}); // текущий пользователь
+  const [userData, setUserdata] = useState({});
+  const history = useHistory();
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false); // попап успешной регистрации закрыт
 
-  // React.useEffect(() => {
-  //   tokenChek();
-  // }, [])
 
-  // const tokenChek = () = {
-  //   if(localStorage.getItem('jwt')){
-  //     let jwt = localStorage.getItem('jwt');
+  // проверка наличия токена в хранилище при изменении loggedIn
+  React.useEffect(() => {
+    let jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth(jwt);
+    }
+  }, [loggedIn]);
 
-  //   }
-  // }
+
+  // Аутотенфикация: если токен валиден, сохраняем данные и пользователь логинится
+  const auth = async (jwt) => {
+    userAuth.getContent(jwt).then((res) => {
+      if (res) {
+        setLoggedIn(true);
+        setUserdata({
+          email: res.email,
+          password: res.password,
+        });
+      }
+    });
+  };
+
+  // когда пользователь залогинен, отправляем его на main
+  React.useEffect(() => {
+    if(loggedIn) {
+      history.push('/main')
+    }
+  }, [history, loggedIn]);
+
 
   React.useEffect(() => {
     Promise.all([api.getInitialCards(), api.getProfileData()])
@@ -96,12 +119,12 @@ function App() {
     setPopupWithSubmitOpen(true);
   };
 
-  // добавить нового пользователя
-  const handleRegisterClick = ({email, password}) => {
-    setInfoTooltipOpen(true);
-    console.log(email, password)
-    // отправить данные на сервер и закрыть окно
-  };
+  // // добавить нового пользователя
+  // const handleRegisterClick = ({email, password}) => {
+  //   setInfoTooltipOpen(true);
+  //   console.log(email, password)
+  //   // отправить данные на сервер и закрыть окно
+  // };
 
   const handleLoginClick =({email, password}) => {
     // если логин валиден, если он есть в localstage, 
@@ -181,7 +204,7 @@ function App() {
             <Register
               title="Регистрация"
               buttonText="Зарегистрироваться"
-              onAddUser={handleRegisterClick}
+              // onAddUser={handleRegisterCl ick}
               isOpen={isInfoTooltipOpen}
               onClose={closeAllPopups}
             />
@@ -191,7 +214,9 @@ function App() {
             loggedIn={loggedIn}
             component={Main}
             />
-            {/* {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />} */}
+          <Route>
+            {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}
+          </Route>
         </Switch>
 
         <Footer />

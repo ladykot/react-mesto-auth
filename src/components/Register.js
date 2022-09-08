@@ -1,11 +1,12 @@
 import React from "react";
 import InfoTooltip from "./InfoTooltip";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as auth from "./Auth"
 
-function Register({ title, buttonText, isOpen, onAddUser, onClose }) {
+function Register({ title, buttonText, isOpen, onClose }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const history = useHistory();
 
 
   React.useEffect(() => {
@@ -14,19 +15,18 @@ function Register({ title, buttonText, isOpen, onAddUser, onClose }) {
   }, []);
 
 
-
   // обработка сабмита регистрации
   const handeleRegisterSubmit = (e) => {
     e.preventDefault();
+    // отправка данных на сервер
     auth.register(
       email,
       password
     )
-    .then((res) => {
-      console.log(res)
-    })
-    
+    history.push('/signin')
+    // открыть окно Успеха
   }
+
 
   return (
     <>

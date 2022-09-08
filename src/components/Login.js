@@ -7,10 +7,7 @@ function Login({ title, buttonText, onLoginUser }) {
 
     const handleLoginSubmit = (e) => { // отправить данные на проверку
         e.preventDefault();
-        onLoginUser({
-          email,
-          password
-        })
+        
     }
 
     // reset email & password
