@@ -32,7 +32,7 @@ export const getContent = (token) => {
 };
 
 export const authorize = (email, password) => {
-  return fetch(`${BASE_URL}/auth/local`, {
+  return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -42,8 +42,9 @@ export const authorize = (email, password) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.user) {
-        localStorage.setItem("jwt", data.jwt);
+      console.log(data)
+      if (data) {
+        localStorage.setItem("jwt", data.token);
         return data;
       } else {
         return;

@@ -12,7 +12,7 @@ function Login({ title, buttonText, onLogin }) {
         onLogin({email, password})
         .then(resetForm)
         .then(() => {
-          history.push('/main')
+          history.push('/')
         })
         .catch((err) => console.log(err));
     }

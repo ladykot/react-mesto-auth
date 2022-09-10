@@ -12,19 +12,23 @@ function Register({ title, buttonText, onClose, onRegister }) {
   const handeleRegisterSubmit = (e) => {
     e.preventDefault();
     // отправка данных на сервер
-    onRegister({email, password})
-    .then(() => {
-      setInfoTooltipOpen(true);
-      // открыть окно Успеха. После закрытия окна, отправить на signin
-
-      history.push("/signin");
-    })
-    .catch((err) => console.log(err));
+    onRegister({ email, password })
+      .then(() => {
+        setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
+        // setAuth(true) // окно успеха
+        history.push("/signin");
+        // props.handleLogin(user.email) // добавляем email в header
+      })
+      .catch((err) => {
+        setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
+        console.log(err);
+        // setAuth(false) // окно неуспеха
+      });
   };
 
   const closeInfoTooltip = () => {
     setInfoTooltipOpen(false);
-  }
+  };
 
   // reset email & password
   React.useEffect(() => {

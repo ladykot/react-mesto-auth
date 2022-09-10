@@ -31,7 +31,6 @@ function App() {
   const history = useHistory();
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false); // попап успешной регистрации закрыт
 
   // проверка наличия токена в хранилище при изменении loggedIn
   React.useEffect(() => {
@@ -148,7 +147,6 @@ function App() {
     setAddPlacePopupOpen(false);
     setSelectedCard(null);
     setPopupWithSubmitOpen(false);
-    setInfoTooltipOpen(false);
   };
 
   // добавление новых данных в профиле
