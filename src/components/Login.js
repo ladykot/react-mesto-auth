@@ -10,6 +10,7 @@ function Login({ title, buttonText, onLogin }) {
     const handleLoginSubmit = (e) => { // отправить данные на проверку
         e.preventDefault();
         onLogin({email, password})
+        .then(resetForm)
         .then(() => {
           history.push('/main')
         })
@@ -17,10 +18,10 @@ function Login({ title, buttonText, onLogin }) {
     }
 
     // reset email & password
-    React.useEffect(() => {
+    const resetForm = () => {
         setEmail("");
         setPassword("");
-    }, []);
+    };
 
   return (
     <>

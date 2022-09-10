@@ -12,8 +12,8 @@ export const register = (email, password) => {
     .then((response) => {
       return response.json();
     })
-    .then((data) => {
-      console.log("res", data); // data - email, password, jwt
+    .then((res) => {
+      return res;
     })
     .catch((err) => console.log(err));
 };
@@ -27,8 +27,8 @@ export const getContent = (token) => {
       Authorization: `Bearer ${token}`,
     },
   })
-  .then((res) => res.json())
-  .then((data) => data);
+    .then((res) => res.json())
+    .then((data) => data);
 };
 
 export const authorize = (email, password) => {

@@ -1,38 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import InfoTooltip from "./InfoTooltip";
-import { Link, useHistory } from 'react-router-dom';
-import * as auth from "./Auth"
+import { Link, useHistory } from "react-router-dom";
 
-function Register({ title, buttonText, isOpen, onClose }) {
+function Register({ title, buttonText, onClose, onRegister }) {
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const history = useHistory();
-
-
-  React.useEffect(() => {
-    setEmail("");
-    setPassword("");
-  }, []);
-
 
   // обработка сабмита регистрации
   const handeleRegisterSubmit = (e) => {
     e.preventDefault();
     // отправка данных на сервер
-    auth.register(
-      email,
-      password
-    )
-    history.push('/signin')
-    // открыть окно Успеха
+    onRegister({email, password})
+    .then(() => {
+      setInfoTooltipOpen(true);
+      // открыть окно Успеха. После закрытия окна, отправить на signin
+
+      history.push("/signin");
+    })
+    .catch((err) => console.log(err));
+  };
+
+  const closeInfoTooltip = () => {
+    setInfoTooltipOpen(false);
   }
 
+  // reset email & password
+  React.useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, []);
 
   return (
     <>
       <section className={`popup popup_type_signup popup_opened`}>
         <div className={`popup__container`}>
-          <form className="popup__form" onSubmit={handeleRegisterSubmit} noValidate>
+          <form
+            className="popup__form"
+            onSubmit={handeleRegisterSubmit}
+            noValidate
+          >
             <h3 className="popup__title">{title}</h3>
             <fieldset className="popup__inputs">
               <input
@@ -68,15 +76,17 @@ function Register({ title, buttonText, isOpen, onClose }) {
             </button>
             <div className="popup__signin">
               <p>Уже зарегистрированы?</p>
-              <Link to="signin" className="popup__login-link">Войти</Link>
+              <Link to="signin" className="popup__login-link">
+                Войти
+              </Link>
             </div>
           </form>
         </div>
       </section>
       <InfoTooltip
         name="success"
-        isOpen={handeleRegisterSubmit && isOpen} // открыто когда нажата кнопка Зарегистрироваться
-        onClose={onClose}
+        isOpen={isInfoTooltipOpen} // открыто когда нажата кнопка Зарегистрироваться
+        onClose={closeInfoTooltip}
       />
     </>
   );

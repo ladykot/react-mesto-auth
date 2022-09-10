@@ -12,7 +12,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import Login from "./Login";
 import Register from "./Register";
-import * as userAuth from './Auth'
+import * as userAuth from "./Auth";
 import ProtectedRoute from "./ProtectedRoute";
 
 import api from "../utils/Api";
@@ -27,32 +27,43 @@ function App() {
   const [removedCard, setRemovedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({}); // текущий пользователь
   const [userData, setUserdata] = useState({});
+  
   const history = useHistory();
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false); // попап успешной регистрации закрыт
 
-
   // проверка наличия токена в хранилище при изменении loggedIn
   React.useEffect(() => {
-    let jwt = localStorage.getItem('jwt');
+    let jwt = localStorage.getItem("jwt");
     if (jwt) {
       auth(jwt);
     }
   }, [loggedIn]);
 
   // авторизация и запись токена в хранилище
-  const onLogin = ({email, password}) => {
-     return userAuth
-     .authorize(email, password)
-     .then((data) => {
-      if(data.jwt) {
+  const onLogin = ({ email, password }) => {
+    console.log("email", email);
+    return userAuth.authorize(email, password).then((data) => {
+      if (data.jwt) {
         setLoggedIn(true);
-        localStorage.setItem('jwt', data.jwt)
-        
+        localStorage.setItem("jwt", data.jwt);
       }
-     })
-  }
+    });
+  };
+
+  const onRegister = ({ email, password }) => {
+    return userAuth.register(email, password).then((data) => {
+      console.log("data", data);
+      if (!data || data.statusCode === 400) {
+        throw new Error("Что-то пошло не так");
+      }
+      if (data.jwt) {
+        setLoggedIn(true);
+        localStorage.setItem("jwt", data.jwt);
+      }
+    });
+  };
 
   // Аутотенфикация: если токен валиден, сохраняем данные и пользователь логинится
   const auth = async (jwt) => {
@@ -69,11 +80,10 @@ function App() {
 
   // когда пользователь залогинен, отправляем его на main
   React.useEffect(() => {
-    if(loggedIn) {
-      history.push('/main')
+    if (loggedIn) {
+      history.push("/main");
     }
   }, [history, loggedIn]);
-
 
   React.useEffect(() => {
     Promise.all([api.getInitialCards(), api.getProfileData()])
@@ -131,20 +141,6 @@ function App() {
     setPopupWithSubmitOpen(true);
   };
 
-  // // добавить нового пользователя
-  // const handleRegisterClick = ({email, password}) => {
-  //   setInfoTooltipOpen(true);
-  //   console.log(email, password)
-  //   // отправить данные на сервер и закрыть окно
-  // };
-
-  const handleLoginClick =({email, password}) => {
-    // если логин валиден, если он есть в localstage, 
-    // в хендлере отображается почта
-    // открыт весь контент
-    console.log(email, password)
-  }
-
   // состояния закрытия
   const closeAllPopups = () => {
     setEditProfilePopupOpen(false);
@@ -191,10 +187,26 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header email={userData}
+        loggedId={loggedIn}/>
         <Switch>
+          <Route path="/signin">
+            <Login title="Вход" buttonText="Войти" onLogin={onLogin} />
+          </Route>
+          <Route path="/signup">
+            <Register
+              title="Регистрация"
+              buttonText="Зарегистрироваться"
+              onClose={closeAllPopups}
+              onRegister={onRegister}
+            />
+          </Route>
           <Route path="/main">
-            <Main
+            <ProtectedRoute
+              exact
+              path="/"
+              component={Main}
+              loggedIn={loggedIn}
               onEditProfile={handleEditProfileClick}
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
@@ -205,30 +217,8 @@ function App() {
               cards={cards}
             />
           </Route>
-          <Route path="/signin">
-            <Login
-              title="Вход"
-              buttonText="Войти"
-              onLogin={onLogin}
-              onLoginUser={handleLoginClick}
-              />
-          </Route>
-          <Route path="/signup">
-            <Register
-              title="Регистрация"
-              buttonText="Зарегистрироваться"
-              // onAddUser={handleRegisterCl ick}
-              isOpen={isInfoTooltipOpen}
-              onClose={closeAllPopups}
-            />
-          </Route>
-          <ProtectedRoute
-            exact path="/"
-            loggedIn={loggedIn}
-            component={Main}
-            />
           <Route>
-            {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
           </Route>
         </Switch>
 
