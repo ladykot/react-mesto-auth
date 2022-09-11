@@ -26,11 +26,11 @@ function Login({ title, buttonText, onLogin }) {
 
   return (
     <>
-      <section className={`popup popup_type_signin popup_opened`}>
+      <section className={`popup-auth popup_opened`}>
         <div className={`popup__container`}>
-        <form className="popup__form" onSubmit={handleLoginSubmit} noValidate>
-          <h3 className="popup__title">{title}</h3>
-          <fieldset className="popup__inputs">
+        <form className="popup-auth__form" onSubmit={handleLoginSubmit} noValidate>
+          <h3 className="popup-auth__title">{title}</h3>
+          <fieldset className="popup-auth__inputs">
             <input
               type="text"
               id="email-input"
@@ -38,7 +38,7 @@ function Login({ title, buttonText, onLogin }) {
               value={email || ""}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
-              className="popup__inputs-item popup__inputs-item_type_title"
+              className="popup-auth__inputs-item"
               required
               minLength="2"
               maxLength="35"
@@ -51,13 +51,13 @@ function Login({ title, buttonText, onLogin }) {
               value={password || ""}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Пароль"
-              className="popup__inputs-item popup__inputs-item_type_link"
+              className="popup-auth__inputs-item"
               required
             />
           </fieldset>
           <button
             type="submit"
-            className="popup__button-save"
+            className="popup-auth__button-save"
             aria-label="Войти"
           >
             {buttonText}
