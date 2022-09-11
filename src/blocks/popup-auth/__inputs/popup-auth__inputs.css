@@ -4,3 +4,7 @@
     margin: 24px 0 24px 0;
     width: 100%;
 }
+
+.popup-auth__inputs:focus {
+    color: white;
+}

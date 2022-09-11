@@ -46,7 +46,7 @@ function Register({ title, buttonText, onRegister }) {
             noValidate
           >
             <h3 className="popup-auth__title">{title}</h3>
-            <fieldset className="popup__inputs">
+            <fieldset className="popup-auth__inputs">
               <input
                 type="text"
                 id="email-input"
