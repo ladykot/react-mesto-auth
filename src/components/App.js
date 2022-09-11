@@ -247,9 +247,11 @@ function App() {
         />
 
         <InfoTooltip
-          name="success"
+          name="info"
           isOpen={isInfoTooltipOpen}
+          isSucess={onRegister}
           onClose={closeAllPopups}
+          
         />
 
         <EditProfilePopup

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import InfoTooltip  from "./InfoTooltip";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
 function Register({ title, buttonText, onRegister, isOpenInfo }) {
@@ -19,8 +18,8 @@ function Register({ title, buttonText, onRegister, isOpenInfo }) {
         if (!data || data.statusCode === 400) {
               throw new Error("Что-то пошло не так");
             } 
-        // debugger
-        // setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
+        
+        // Открываем окно успеха
         isOpenInfo(true)
         console.log("Успех")
         history.push("/signin");
