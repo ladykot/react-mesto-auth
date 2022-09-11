@@ -4,10 +4,8 @@ import logo from "../images/logo.svg";
 
 function Header({ userData, onSignOut, loggedIn }) {
 
-  const history = useHistory();
   const handlerSubmit = () => {
     onSignOut();
-    history.push('/signin')
   };
 
   return (
@@ -24,6 +22,7 @@ function Header({ userData, onSignOut, loggedIn }) {
           {loggedIn && (<p className="header__mail">{userData}</p>)}
           <NavLink to="/signin"
             className="header__mail header__mail_active"
+            onClick={handlerSubmit}
             >Выйти
           </NavLink>
         </Route>
