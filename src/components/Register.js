@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import InfoTooltip from "./InfoTooltip";
 import { Link, useHistory } from "react-router-dom";
 
-function Register({ title, buttonText, onClose, onRegister }) {
+function Register({ title, buttonText, onRegister }) {
   const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -15,12 +15,12 @@ function Register({ title, buttonText, onClose, onRegister }) {
     onRegister({ email, password })
       .then(() => {
         setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
-        // setAuth(true) // окно успеха
         history.push("/signin");
         // props.handleLogin(user.email) // добавляем email в header
       })
       .catch((err) => {
         setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
+
         console.log(err);
         // setAuth(false) // окно неуспеха
       });
@@ -96,3 +96,4 @@ function Register({ title, buttonText, onClose, onRegister }) {
   );
 }
 export default Register;
+    

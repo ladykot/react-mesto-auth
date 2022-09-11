@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import "../index.css";
 import Footer from "./Footer";
 
@@ -27,33 +33,35 @@ function App() {
   const [removedCard, setRemovedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({}); // текущий пользователь
   const [userData, setUserdata] = useState({});
-  
+
   const history = useHistory();
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
+
 
   // проверка наличия токена в хранилище при изменении loggedIn
   React.useEffect(() => {
     let jwt = localStorage.getItem("jwt");
     if (jwt) {
-      auth(jwt);
+      auth();
     }
   }, [loggedIn]);
 
   // авторизация и запись токена в хранилище
   const onLogin = ({ email, password }) => {
-    console.log("email", email);
-    return userAuth.authorize(email, password).then((data) => {
-      if (data.jwt) {
+    return userAuth.authorize(email, password)
+    .then((data) => {
+      console.log("Данные авторизации", data)
+      if (data.token) {
         setLoggedIn(true);
-        localStorage.setItem("jwt", data.jwt);
+        localStorage.setItem("jwt", data.token);
       }
     });
   };
 
   const onRegister = ({ email, password }) => {
     return userAuth.register(email, password).then((data) => {
-      console.log("data", data);
+      console.log("Отправляем данные на регистрацию", data);
       if (!data || data.statusCode === 400) {
         throw new Error("Что-то пошло не так");
       }
@@ -64,9 +72,14 @@ function App() {
     });
   };
 
-  // Аутотенфикация: если токен валиден, сохраняем данные и пользователь логинится
-  const auth = async (jwt) => {
-    userAuth.getContent(jwt).then((res) => {
+  const onSignOut = () => {
+    setLoggedIn(false);
+    localStorage.removeItem("jwt");
+  };
+
+  // Аутотенфикация: если токен валиден, сохраняем данные, и пользователь логинится
+  const auth = async () => {
+    userAuth.getContent().then((res) => {
       if (res) {
         setLoggedIn(true);
         setUserdata({
@@ -80,7 +93,7 @@ function App() {
   // когда пользователь залогинен, отправляем его на main
   React.useEffect(() => {
     if (loggedIn) {
-      history.push("/main");
+      history.push("/");
     }
   }, [history, loggedIn]);
 
@@ -185,8 +198,12 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header email={userData}
-        loggedId={loggedIn}/>
+        <Header
+          userData={userData}
+          // loggedIn={loggedIn}
+          onSignOut={onSignOut}
+        />
+
         <Switch>
           <Route path="/signin">
             <Login title="Вход" buttonText="Войти" onLogin={onLogin} />
@@ -195,26 +212,26 @@ function App() {
             <Register
               title="Регистрация"
               buttonText="Зарегистрироваться"
-              onClose={closeAllPopups}
+              // onClose={closeAllPopups}
               onRegister={onRegister}
             />
           </Route>
-          <Route path="/main">
-            <ProtectedRoute
-              exact
-              path="/"
-              component={Main}
-              loggedIn={loggedIn}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardDelete={handleCardDelete}
-              onCardLike={handleCardLike}
-              onCardDeleteClick={handleCardDeleteClick} // открыли попап подтверждения
-              cards={cards}
-            />
-          </Route>
+
+          <ProtectedRoute
+            exact
+            path="/"
+            component={Main}
+            loggedIn={loggedIn}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            onCardDelete={handleCardDelete}
+            onCardLike={handleCardLike}
+            onCardDeleteClick={handleCardDeleteClick} // открыли попап подтверждения
+            cards={cards}
+          />
+
           <Route>
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
           </Route>

@@ -10,6 +10,7 @@ function Login({ title, buttonText, onLogin }) {
     const handleLoginSubmit = (e) => { // отправить данные на проверку
         e.preventDefault();
         onLogin({email, password})
+        
         .then(resetForm)
         .then(() => {
           history.push('/')

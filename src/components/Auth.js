@@ -18,7 +18,9 @@ export const register = (email, password) => {
     .catch((err) => console.log(err));
 };
 
-export const getContent = (token) => {
+// взять данные пользователя по токену для вставки в header
+export const getContent = () => {
+  const token = localStorage.getItem('jwt');
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
@@ -35,20 +37,19 @@ export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
+      // Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-      if (data) {
-        localStorage.setItem("jwt", data.token);
-        return data;
-      } else {
-        return;
-      }
-    })
-    .catch((err) => console.log(err));
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.user) {
+      localStorage.setItem("jwt", data.jwt);
+      return data;
+    } else {
+      return;
+    }
+  })
+  .catch((err) => console.log(err));
 };
