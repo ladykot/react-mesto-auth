@@ -38,14 +38,14 @@ function Register({ title, buttonText, onRegister }) {
 
   return (
     <>
-      <section className={`popup popup_type_signup popup_opened`}>
+      <section className={`popup-auth popup_opened`}>
         <div className={`popup__container`}>
           <form
-            className="popup__form"
+            className="popup-auth__form"
             onSubmit={handeleRegisterSubmit}
             noValidate
           >
-            <h3 className="popup__title">{title}</h3>
+            <h3 className="popup-auth__title">{title}</h3>
             <fieldset className="popup__inputs">
               <input
                 type="text"
@@ -54,7 +54,7 @@ function Register({ title, buttonText, onRegister }) {
                 value={email || ""}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="popup__inputs-item popup__inputs-item_type_title"
+                className="popup-auth__inputs-item"
                 required
                 minLength="2"
                 maxLength="35"
@@ -65,22 +65,23 @@ function Register({ title, buttonText, onRegister }) {
                 id="password-input"
                 name="password"
                 value={password || ""}
+                x
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Пароль"
-                className="popup__inputs-item popup__inputs-item_type_link"
+                className="popup-auth__inputs-item"
                 required
               />
             </fieldset>
             <button
               type="submit"
-              className="popup__button-save"
+              className="popup-auth__button-save"
               aria-label="Войти"
             >
               {buttonText}
             </button>
-            <div className="popup__signin">
-              <p>Уже зарегистрированы?</p>
-              <Link to="signin" className="popup__login-link">
+            <div className="popup-auth__signin">
+              <p className="popup-auth__signin-text">Уже зарегистрированы?</p>
+              <Link to="signin" className="popup-auth__signin-link">
                 Войти
               </Link>
             </div>
@@ -96,4 +97,3 @@ function Register({ title, buttonText, onRegister }) {
   );
 }
 export default Register;
-    

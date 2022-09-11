@@ -7,7 +7,7 @@ function Header({ userData, onSignOut }) {
   const history = useHistory();
   const handlerSubmit = () => {
     onSignOut();
-    history.push('signin')
+    history.push('/signin')
   };
 
   return (

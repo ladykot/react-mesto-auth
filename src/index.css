@@ -22,6 +22,17 @@
 @import url(./blocks/popup/__button-save/_disable/popup__button-save_disable.css);
 @import url(./blocks/popup/__inputs-item/_invalid/popup__inputs-item_invalid.css);
 
+@import url(./blocks/popup-auth/popup-auth.css);
+@import url(./blocks/popup-auth/__form/popup-auth__form.css);
+@import url(./blocks/popup-auth/__title/popup-auth__title.css);
+@import url(./blocks/popup-auth/__inputs/popup-auth__inputs.css);
+@import url(./blocks/popup-auth/__inputs-item/popup-auth__inputs-item.css);
+@import url(./blocks/popup-auth/__button-save/popup-auth__button-save.css);
+@import url(./blocks/popup-auth/__signin/popup-auth__signin.css);
+/* @import url(./blocks/popup-auth/__signin/_text/popup-auth__signin_text.css); */
+@import url(./blocks/popup-auth/__signin-text/popup-auth__signin-text.css);
+/* @import url(./blocks/popup-auth/__signin/_link/popup-auth__signin_link.css); */
+@import url(./blocks/popup-auth/__signin-link/popup-auth__signin-link.css);
 
 @import url(./blocks/content/content.css);
 @import url(./blocks/header/header.css);
