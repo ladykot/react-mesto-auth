@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import InfoTooltip from "./InfoTooltip";
+import InfoTooltip  from "./InfoTooltip";
 import { Link, useHistory } from "react-router-dom";
 
-function Register({ title, buttonText, onRegister, isOpen }) {
-  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false);
+function Register({ title, buttonText, onRegister, isOpenInfo }) {
+  
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const history = useHistory();
@@ -20,18 +20,17 @@ function Register({ title, buttonText, onRegister, isOpen }) {
               throw new Error("Что-то пошло не так");
             } 
         // debugger
-        setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
+        // setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
+        isOpenInfo(true)
+        console.log("Успех")
         history.push("/signin");
       })
       .catch((err) => {
-        setInfoTooltipOpen(false); // открыть окно успеха/неуспеха
+        // setInfoTooltipOpen(false); // открыть окно успеха/неуспеха
         console.log(err);
       });
   };
 
-  const closeInfoTooltip = () => {
-    setInfoTooltipOpen(false);
-  };
 
   // reset email & password
   React.useEffect(() => {
@@ -90,11 +89,11 @@ function Register({ title, buttonText, onRegister, isOpen }) {
           </form>
         </div>
       </section>
-      <InfoTooltip
+      {/* <InfoTooltip
         name="success"
         isOpen={isInfoTooltipOpen} // открыто когда нажата кнопка Зарегистрироваться
         onClose={closeInfoTooltip}
-      />
+      /> */}
     </>
   );
 }

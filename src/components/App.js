@@ -23,6 +23,7 @@ import ProtectedRoute from "./ProtectedRoute";
 
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -37,6 +38,7 @@ function App() {
   const history = useHistory();
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false); // состояние окна спеха/неуспеха
 
 
   // проверка наличия токена в хранилище при изменении loggedIn
@@ -149,6 +151,8 @@ function App() {
     setPopupWithSubmitOpen(true);
   };
 
+  
+
   // состояния закрытия
   const closeAllPopups = () => {
     setEditProfilePopupOpen(false);
@@ -156,6 +160,7 @@ function App() {
     setAddPlacePopupOpen(false);
     setSelectedCard(null);
     setPopupWithSubmitOpen(false);
+    setInfoTooltipOpen(false);
   };
 
   // добавление новых данных в профиле
@@ -208,9 +213,8 @@ function App() {
             <Register
               title="Регистрация"
               buttonText="Зарегистрироваться"
-              // onClose={closeAllPopups}
               onRegister={onRegister}
-              // isOpen={isOpen}
+              isOpenInfo={setInfoTooltipOpen}
             />
           </Route>
 
@@ -239,6 +243,12 @@ function App() {
           name="big-image"
           isOpen={!!isSelectedCard} // если есть карта, то isOpen == true
           card={isSelectedCard}
+          onClose={closeAllPopups}
+        />
+
+        <InfoTooltip
+          name="success"
+          isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
         />
 
