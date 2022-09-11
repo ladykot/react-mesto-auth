@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Switch, useHistory } from "react-router-dom";
+import { Link, NavLink, Route, Switch, useHistory } from "react-router-dom";
 import logo from "../images/logo.svg";
 
 function Header({ userData, onSignOut, loggedIn }) {
@@ -22,8 +22,10 @@ function Header({ userData, onSignOut, loggedIn }) {
         </Route>
         <Route path="/">
           {loggedIn && (<p className="header__mail">{userData}</p>)}
-          <button className="header__mail" onClick={handlerSubmit}>Выйти
-          </button>
+          <NavLink to="/signin"
+            className="header__mail header__mail_active"
+            >Выйти
+          </NavLink>
         </Route>
         
       </Switch>
