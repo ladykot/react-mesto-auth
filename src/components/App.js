@@ -51,8 +51,16 @@ function App() {
 
   // авторизация и запись токена в хранилище
   const onLogin = ({ email, password }) => {
-    return userAuth.authorize(email, password)
-    
+    return userAuth.authorize(email, password).then((data) =>{
+      if (data.jwt) {
+        setLoggedIn(true);
+        localStorage.setItem('jwt', data.jwt);
+      }
+    })
+    .then(() => {
+      history.push('/')
+    }
+    )
   };
 
   const onRegister = ({ email, password }) => {
@@ -77,13 +85,10 @@ function App() {
 
   // Аутотенфикация: если токен валиден, сохраняем данные, и пользователь логинится
   const auth = async () => {
-    userAuth.getContent().then((res) => {
+    return userAuth.getContent().then((res) => {
       if (res) {
         setLoggedIn(true);
-        setUserdata({
-          email: res.email,
-          password: res.password,
-        });
+        setUserdata(res.data.email);
       }
     });
   };
@@ -201,14 +206,16 @@ function App() {
       <div className="page">
         <Header
           userData={userData}
-          // loggedIn={loggedIn}
+          loggedIn={loggedIn}
           onSignOut={onSignOut}
         />
 
         <Switch>
+
           <Route path="/signin">
             <Login title="Вход" buttonText="Войти" onLogin={onLogin} />
           </Route>
+
           <Route path="/signup">
             <Register
               title="Регистрация"
@@ -236,6 +243,7 @@ function App() {
           <Route>
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
           </Route>
+
         </Switch>
 
         <Footer />

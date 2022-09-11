@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { Link, Route, Switch, useHistory } from "react-router-dom";
 import logo from "../images/logo.svg";
 
-function Header({ userData, onSignOut }) {
+function Header({ userData, onSignOut, loggedIn }) {
 
   const history = useHistory();
   const handlerSubmit = () => {
@@ -21,9 +21,11 @@ function Header({ userData, onSignOut }) {
           <Link to="/signup" className="header__mail">Регистрация</Link>
         </Route>
         <Route path="/">
+          {loggedIn && (<p className="header__mail">{userData}</p>)}
           <button className="header__mail" onClick={handlerSubmit}>Выйти
           </button>
         </Route>
+        
       </Switch>
 
         {/* <>

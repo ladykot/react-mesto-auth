@@ -5,8 +5,8 @@ import unionErr from "../images/Union_err.svg"
 function InfoTooltip({ name, isOpen, onClose, isSucess }) {
   return (
     <section
-      // className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}
-        className={`popup popup__info-${name} popup_opened`}
+      className={`popup popup__info-${name} ${isOpen ? "popup_opened" : ""}`}
+        // className={`popup popup__info-${name} popup_opened`}
 
       // закрытие по оверлею
       onClick={onClose}
