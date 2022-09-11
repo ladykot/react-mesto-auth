@@ -50,26 +50,22 @@ function App() {
   // авторизация и запись токена в хранилище
   const onLogin = ({ email, password }) => {
     return userAuth.authorize(email, password)
-    .then((data) => {
-      console.log("Данные авторизации", data)
-      if (data.token) {
-        setLoggedIn(true);
-        localStorage.setItem("jwt", data.token);
-      }
-    });
+    
   };
 
   const onRegister = ({ email, password }) => {
-    return userAuth.register(email, password).then((data) => {
-      console.log("Отправляем данные на регистрацию", data);
-      if (!data || data.statusCode === 400) {
-        throw new Error("Что-то пошло не так");
-      }
-      if (data.jwt) {
-        setLoggedIn(true);
-        localStorage.setItem("jwt", data.jwt);
-      }
-    });
+    return userAuth.register(email, password)
+    // .then((data) => {
+    //   console.log("Отправляем данные на регистрацию", data);
+    //   // if (!data || data.statusCode === 400) {
+    //   //   throw new Error("Что-то пошло не так");
+    //   // }
+    //   // if (data.jwt) {
+    //   //   setLoggedIn(true);
+    //   //   localStorage.setItem("jwt", data.jwt);
+    //   // }
+    //   // console.log(data.email)
+    // });
   };
 
   const onSignOut = () => {
@@ -214,6 +210,7 @@ function App() {
               buttonText="Зарегистрироваться"
               // onClose={closeAllPopups}
               onRegister={onRegister}
+              // isOpen={isOpen}
             />
           </Route>
 

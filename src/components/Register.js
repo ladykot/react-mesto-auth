@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import InfoTooltip from "./InfoTooltip";
 import { Link, useHistory } from "react-router-dom";
 
-function Register({ title, buttonText, onRegister }) {
+function Register({ title, buttonText, onRegister, isOpen }) {
   const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -13,16 +13,19 @@ function Register({ title, buttonText, onRegister }) {
     e.preventDefault();
     // отправка данных на сервер
     onRegister({ email, password })
-      .then(() => {
+      .then((data) => {
+        console.log("data", data);
+
+        if (!data || data.statusCode === 400) {
+              throw new Error("Что-то пошло не так");
+            } 
+        // debugger
         setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
         history.push("/signin");
-        // props.handleLogin(user.email) // добавляем email в header
       })
       .catch((err) => {
-        setInfoTooltipOpen(true); // открыть окно успеха/неуспеха
-
+        setInfoTooltipOpen(false); // открыть окно успеха/неуспеха
         console.log(err);
-        // setAuth(false) // окно неуспеха
       });
   };
 
@@ -38,7 +41,7 @@ function Register({ title, buttonText, onRegister }) {
 
   return (
     <>
-      <section className={`popup-auth popup_opened`}>
+      <section className={`popup-auth`}>
         <div className={`popup__container`}>
           <form
             className="popup-auth__form"
@@ -46,7 +49,7 @@ function Register({ title, buttonText, onRegister }) {
             noValidate
           >
             <h3 className="popup-auth__title">{title}</h3>
-            <fieldset className="popup-auth__inputs">
+            <fieldset className="popup__inputs">
               <input
                 type="text"
                 id="email-input"
@@ -65,7 +68,6 @@ function Register({ title, buttonText, onRegister }) {
                 id="password-input"
                 name="password"
                 value={password || ""}
-                x
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Пароль"
                 className="popup-auth__inputs-item"
