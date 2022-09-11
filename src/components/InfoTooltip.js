@@ -6,7 +6,7 @@ function InfoTooltip({ name, isOpen, onClose, isSucess }) {
   return (
     <section
       // className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}
-        className={`popup popup_type_${name} popup_opened`}
+        className={`popup popup__info-${name} popup_opened`}
 
       // закрытие по оверлею
       onClick={onClose}
@@ -22,11 +22,11 @@ function InfoTooltip({ name, isOpen, onClose, isSucess }) {
           type="button"
           className="popup__button-close popup__button-close_type_edit hover"
         ></button>
-        <form className="popup__form">
+        <form className="popup__form-info">
           { isSucess ?
             <>
-              <img className="info" src={union} alt="Успех!"/>
-              <h3 className="popup__title">Вы успешно зарегистрировались!</h3>
+              <img className="popup__info-image" src={union} alt="Успех!"/>
+              <h3 className="popup__info-title">Вы успешно зарегистрировались!</h3>
             </> :
             <>
             <img className="info" src={unionErr} alt="Ошибка"/>
