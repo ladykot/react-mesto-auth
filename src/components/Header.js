@@ -1,9 +1,8 @@
 import React from "react";
-import { Link, NavLink, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Link, NavLink, Route, Switch } from "react-router-dom";
 import logo from "../images/logo.svg";
 
 function Header({ userData, onSignOut, loggedIn }) {
-
   const handlerSubmit = () => {
     onSignOut();
   };
@@ -11,22 +10,30 @@ function Header({ userData, onSignOut, loggedIn }) {
   return (
     <header className="header">
       <img className="header__logo" src={logo} alt="логотип Место" />
-      <Switch>
-        <Route path="/signup">
-          <Link to="/signin" className="header__mail">Войти</Link>
-        </Route>
-        <Route path="/signin">
-          <Link to="/signup" className="header__mail">Регистрация</Link>
-        </Route>
-        <Route path="/">
-          {loggedIn && (<p className="header__mail">{userData}</p>)}
-          <NavLink to="/signin"
-            className="header__mail header__mail_active"
-            onClick={handlerSubmit}
-            >Выйти
-          </NavLink>
-        </Route>
-      </Switch>
+      {/* <BrowserRouter> */}
+        <Switch>
+          <Route path="/signup">
+            <a href="/signin" className="header__mail">
+              Войти
+            </a>
+          </Route>
+          <Route path="/signin">
+            <a href="/signup" className="header__mail">
+              Регистрация
+            </a>
+          </Route>
+          <Route path="/">
+            {loggedIn && <p className="header__mail">{userData}</p>}
+            <NavLink
+              to="/signin"
+              className="header__mail header__mail_active"
+              onClick={handlerSubmit}
+            >
+              Выйти
+            </NavLink>
+          </Route>
+        </Switch>
+      {/* </BrowserRouter> */}
     </header>
   );
 }
