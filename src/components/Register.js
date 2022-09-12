@@ -13,19 +13,13 @@ function Register({ title, buttonText, onRegister, isOpenInfo }) {
     // отправка данных на сервер
     onRegister({ email, password })
       .then((data) => {
-        console.log("data", data);
-
         if (!data || data.statusCode === 400) {
               throw new Error("Что-то пошло не так");
             } 
-        
-        // Открываем окно успеха
         isOpenInfo(true)
-        console.log("Успех")
         history.push("/signin");
       })
       .catch((err) => {
-        // setInfoTooltipOpen(false); // открыть окно успеха/неуспеха
         console.log(err);
       });
   };

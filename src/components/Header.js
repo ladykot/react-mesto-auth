@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink, Route, Switch, useHistory } from "react-router-dom";
+import { Link, NavLink, Route, Switch } from "react-router-dom";
 import logo from "../images/logo.svg";
 
 function Header({ userData, onSignOut, loggedIn }) {
@@ -26,16 +26,7 @@ function Header({ userData, onSignOut, loggedIn }) {
             >Выйти
           </NavLink>
         </Route>
-        
       </Switch>
-
-        {/* <>
-          <p className="header__mail">{userData.email}</p>
-          <Link to={headertButton.link} onClick={handlerSubmit}>
-            <p>{headertButton.text}</p>
-          </Link>
-        </> */}
-
     </header>
   );
 }

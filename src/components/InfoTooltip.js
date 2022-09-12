@@ -6,9 +6,6 @@ function InfoTooltip({ name, isOpen, onClose, isSucess }) {
   return (
     <section
       className={`popup popup__info-${name} ${isOpen ? "popup_opened" : ""}`}
-        // className={`popup popup__info-${name} popup_opened`}
-
-      // закрытие по оверлею
       onClick={onClose}
     >
       <div

@@ -7,12 +7,9 @@ function Login({ title, buttonText, onLogin }) {
   const history = useHistory();
 
   const handleLoginSubmit = (e) => {
-    // отправить данные на проверку
-
     e.preventDefault();
     onLogin({ email, password })
       .then((res) => {
-        console.log("обрабатываю вход", res);
         history.push("/");
         resetForm();
       })

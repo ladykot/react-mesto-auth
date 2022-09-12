@@ -4,7 +4,6 @@ import {
   Route,
   Switch,
   useHistory,
-  useLocation,
 } from "react-router-dom";
 import "../index.css";
 import Footer from "./Footer";
@@ -47,7 +46,7 @@ function App() {
     if (jwt) {
       auth();
     }
-  }, [loggedIn]);
+  })
 
   // авторизация и запись токена в хранилище
   const onLogin = ({ email, password }) => {
@@ -70,14 +69,19 @@ function App() {
   const onSignOut = () => {
     setLoggedIn(false);
     localStorage.removeItem("jwt");
+    history.push("/");
   };
 
   // Аутотенфикация: если токен валиден, сохраняем данные, и пользователь логинится
   const auth = async () => {
     return userAuth.getContent().then((res) => {
+      // если такой есть, то логинимся
       if (res) {
         setLoggedIn(true);
         setUserdata(res.data.email);
+      } else {
+        setInfoTooltipOpen(true)
+        history.push('/')
       }
     });
   };
