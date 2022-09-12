@@ -17,7 +17,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import Login from "./Login";
 import Register from "./Register";
-import * as userAuth from "./Auth";
+import * as userAuth from "../utils/Auth";
 import ProtectedRoute from "./ProtectedRoute";
 
 import api from "../utils/Api";
@@ -42,7 +42,7 @@ function App() {
 
   // проверка наличия токена в хранилище при изменении loggedIn
   React.useEffect(() => {
-    let jwt = localStorage.getItem("jwt");
+    const jwt = localStorage.getItem("jwt");
     if (jwt) {
       auth();
     }
@@ -52,14 +52,12 @@ function App() {
   const onLogin = ({ email, password }) => {
     return userAuth.authorize(email, password).then((data) =>{
       if (data.token) {
-        setLoggedIn(true);
-        localStorage.setItem('jwt', data.token);
+        setLoggedIn(true); // залогинились
+        localStorage.setItem('jwt', data.token); // сохранили токен
+        history.push('/');
       }
     })
-    .then(() => {
-      history.push('/')
-    }
-    )
+    .catch((err) => console.log(err));
   };
 
   const onRegister = ({ email, password }) => {
@@ -87,11 +85,11 @@ function App() {
   };
 
   // когда пользователь залогинен, отправляем его на main
-  React.useEffect(() => {
-    if (loggedIn) {
-      history.push("/");
-    }
-  }, [history, loggedIn]);
+  // React.useEffect(() => {
+  //   if (loggedIn) {
+  //     history.push("/");
+  //   }
+  // }, [history, loggedIn]);
 
   React.useEffect(() => {
     Promise.all([api.getInitialCards(), api.getProfileData()])
@@ -232,10 +230,6 @@ function App() {
             onCardDeleteClick={handleCardDeleteClick} // открыли попап подтверждения
             cards={cards}
           />
-
-          <Route>
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
-          </Route>
 
         </Switch>
 

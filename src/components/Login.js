@@ -6,14 +6,11 @@ function Login({ title, buttonText, onLogin }) {
   const [password, setPassword] = React.useState("");
   const history = useHistory();
 
+  // сабмит формы Входа
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    onLogin({ email, password })
-      .then((res) => {
-        history.push("/");
-        resetForm();
-      })
-      .catch((err) => console.log(err));
+    onLogin({ email, password });
+    resetForm();
   };
 
   // reset email & password
