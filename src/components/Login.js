@@ -1,10 +1,8 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 
 function Login({ title, buttonText, onLogin }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const history = useHistory();
 
   // сабмит формы Входа
   const handleLoginSubmit = (e) => {

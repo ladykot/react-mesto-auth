@@ -53,6 +53,7 @@ function App() {
         if (data.token) {
           setLoggedIn(true); // залогинились
           localStorage.setItem("jwt", data.token); // сохранили токен
+          console.log('save')
           history.push("/");
         }
       })
@@ -101,11 +102,11 @@ function App() {
   };
 
   // когда пользователь залогинен, отправляем его на main
-  // React.useEffect(() => {
-  //   if (loggedIn) {
-  //     history.push("/");
-  //   }
-  // }, [history, loggedIn]);
+  React.useEffect(() => {
+    if (loggedIn) {
+      history.push("/");
+    }
+  }, [history, loggedIn]);
 
   React.useEffect(() => {
     Promise.all([api.getInitialCards(), api.getProfileData()])
@@ -114,7 +115,7 @@ function App() {
         setCurrentUser(data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [loggedIn]);
 
   // при клике на карточку
   const handleCardClick = (card) => {
