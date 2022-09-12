@@ -85,9 +85,11 @@ function App() {
   const auth = async () => {
     return userAuth.getContent().then((res) => {
       // если такой есть, то логинимся
+      console.log(res)
       if (res) {
-        setLoggedIn(true);
         setUserdata(res.data.email);
+        setLoggedIn(true);
+        history.push("/");
       } else {
         setInfoTooltipOpen({ isOpen: true, isSucess: false });
         history.push("/");
