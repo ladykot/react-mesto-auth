@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-} from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import "../index.css";
 import Footer from "./Footer";
 
@@ -37,8 +32,10 @@ function App() {
   const history = useHistory();
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState({isOpen: false, isSucess: false}); // состояние окна спеха/неуспеха
-
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState({
+    isOpen: false,
+    isSucess: false,
+  }); // состояние окна спеха/неуспеха
 
   // проверка наличия токена в хранилище при изменении loggedIn
   React.useEffect(() => {
@@ -46,34 +43,38 @@ function App() {
     if (jwt) {
       auth();
     }
-  })
+  });
 
   // авторизация и запись токена в хранилище
   const onLogin = ({ email, password }) => {
-    return userAuth.authorize(email, password).then((data) =>{
-      if (data.token) {
-        setLoggedIn(true); // залогинились
-        localStorage.setItem('jwt', data.token); // сохранили токен
-        history.push('/');
-      }
-    })
-    .catch((err) => console.log(err));
+    return userAuth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          setLoggedIn(true); // залогинились
+          localStorage.setItem("jwt", data.token); // сохранили токен
+          history.push("/");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const onRegister = ({ email, password }) => {
-    return userAuth.register(email, password).then((res) => {
-      if (res.data) {
-        setInfoTooltipOpen({isOpen: true, isSucess: true});
-        console.log('регистрация прошла');
-        history.push("/signin");
-      } else {
-        console.log('регистрация не прошла')
-        setInfoTooltipOpen({isOpen: true, isSucess: false});
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    return userAuth
+      .register(email, password)
+      .then((res) => {
+        if (res.data) {
+          setInfoTooltipOpen({ isOpen: true, isSucess: true });
+          console.log("регистрация прошла");
+          history.push("/signin");
+        } else {
+          console.log("регистрация не прошла");
+          setInfoTooltipOpen({ isOpen: true, isSucess: false });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onSignOut = () => {
@@ -90,10 +91,13 @@ function App() {
         setLoggedIn(true);
         setUserdata(res.data.email);
       } else {
-        setInfoTooltipOpen(true)
-        history.push('/')
+        setInfoTooltipOpen({ isOpen: true, isSucess: false });
+        history.push("/");
       }
-    });
+    })
+    .catch((err) => {
+      console.log(err);
+    });;
   };
 
   // когда пользователь залогинен, отправляем его на main
@@ -159,8 +163,6 @@ function App() {
     setPopupWithSubmitOpen(true);
   };
 
-  
-
   // состояния закрытия
   const closeAllPopups = () => {
     setEditProfilePopupOpen(false);
@@ -207,14 +209,9 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header
-          userData={userData}
-          loggedIn={loggedIn}
-          onSignOut={onSignOut}
-        />
+        <Header userData={userData} loggedIn={loggedIn} onSignOut={onSignOut} />
 
         <Switch>
-
           <Route path="/signin">
             <Login title="Вход" buttonText="Войти" onLogin={onLogin} />
           </Route>
@@ -242,7 +239,6 @@ function App() {
             onCardDeleteClick={handleCardDeleteClick} // открыли попап подтверждения
             cards={cards}
           />
-
         </Switch>
 
         <Footer />
