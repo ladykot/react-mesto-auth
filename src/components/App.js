@@ -85,7 +85,6 @@ function App() {
   const auth = async () => {
     return userAuth.getContent().then((res) => {
       // если такой есть, то логинимся
-      console.log(res)
       if (res) {
         setUserdata(res.data.email);
         setLoggedIn(true);
