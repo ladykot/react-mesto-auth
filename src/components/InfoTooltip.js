@@ -29,8 +29,8 @@ function InfoTooltip({ name, isOpen, onClose, isSucess }) {
               <h3 className="popup__info-title">Вы успешно зарегистрировались!</h3>
             </> :
             <>
-            <img className="info" src={unionErr} alt="Ошибка"/>
-            <h3 className="popup__title">Что-то пошло не так! Попробуйте ещё раз.</h3>
+            <img className="popup__info-image" src={unionErr} alt="Ошибка"/>
+            <h3 className="popup__info-title">Что-то пошло не так! Попробуйте ещё раз.</h3>
           </>
           }
         </form>
