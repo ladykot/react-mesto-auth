@@ -3,6 +3,7 @@ import union from "../images/Union.svg"
 import unionErr from "../images/Union_err.svg"
 
 function InfoTooltip({ name, isOpen, onClose, isSucess }) {
+  console.log(isSucess)
   return (
     <section
       className={`popup popup__info-${name} ${isOpen ? "popup_opened" : ""}`}

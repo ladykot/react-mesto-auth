@@ -10,7 +10,6 @@ export const register = (email, password) => {
     body: JSON.stringify({ email, password }),
   })
     .then((response) => {
-      console.log("Регистрация завершена")
       return response.json();
     })
     .then((res) => {

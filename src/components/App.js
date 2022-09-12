@@ -37,7 +37,7 @@ function App() {
   const history = useHistory();
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false); // состояние окна спеха/неуспеха
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState({isOpen: false, isSucess: false}); // состояние окна спеха/неуспеха
 
 
   // проверка наличия токена в хранилище при изменении loggedIn
@@ -61,7 +61,19 @@ function App() {
   };
 
   const onRegister = ({ email, password }) => {
-    return userAuth.register(email, password)
+    return userAuth.register(email, password).then((res) => {
+      if (res.data) {
+        setInfoTooltipOpen({isOpen: true, isSucess: true});
+        console.log('регистрация прошла');
+        history.push("/signin");
+      } else {
+        console.log('регистрация не прошла')
+        setInfoTooltipOpen({isOpen: true, isSucess: false});
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   const onSignOut = () => {
@@ -243,8 +255,8 @@ function App() {
 
         <InfoTooltip
           name={onRegister ? "sucess" : "error"}
-          isOpen={isInfoTooltipOpen}
-          isSucess={onRegister}
+          isOpen={isInfoTooltipOpen.isOpen}
+          isSucess={isInfoTooltipOpen.isSucess}
           onClose={closeAllPopups}
         />
 

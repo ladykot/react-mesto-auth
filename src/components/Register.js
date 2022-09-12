@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
 function Register({ title, buttonText, onRegister, isOpenInfo }) {
-  
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const history = useHistory();
@@ -10,20 +9,8 @@ function Register({ title, buttonText, onRegister, isOpenInfo }) {
   // обработка сабмита регистрации
   const handeleRegisterSubmit = (e) => {
     e.preventDefault();
-    // отправка данных на сервер
     onRegister({ email, password })
-      .then((data) => {
-        if (!data || data.statusCode === 400) {
-              throw new Error("Что-то пошло не так");
-            } 
-        isOpenInfo(true)
-        history.push("/signin");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
-
 
   // reset email & password
   React.useEffect(() => {
