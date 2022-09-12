@@ -51,9 +51,8 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
-          setLoggedIn(true); // залогинились
           localStorage.setItem("jwt", data.token); // сохранили токен
-          console.log('save')
+          setLoggedIn(true); // залогинились
           history.push("/");
         }
       })
@@ -66,10 +65,8 @@ function App() {
       .then((res) => {
         if (res.data) {
           setInfoTooltipOpen({ isOpen: true, isSucess: true });
-          console.log("регистрация прошла");
           history.push("/signin");
         } else {
-          console.log("регистрация не прошла");
           setInfoTooltipOpen({ isOpen: true, isSucess: false });
         }
       })
@@ -102,11 +99,11 @@ function App() {
   };
 
   // когда пользователь залогинен, отправляем его на main
-  React.useEffect(() => {
-    if (loggedIn) {
-      history.push("/");
-    }
-  }, [history, loggedIn]);
+  // React.useEffect(() => {
+  //   if (loggedIn) {
+  //     history.push("/");
+  //   }
+  // }, [history, loggedIn]);
 
   React.useEffect(() => {
     Promise.all([api.getInitialCards(), api.getProfileData()])
@@ -251,7 +248,6 @@ function App() {
         />
 
         <InfoTooltip
-          name={onRegister ? "sucess" : "error"}
           isOpen={isInfoTooltipOpen.isOpen}
           isSucess={isInfoTooltipOpen.isSucess}
           onClose={closeAllPopups}

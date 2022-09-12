@@ -1,22 +1,22 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Register({ title, buttonText, onRegister, isOpenInfo }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const history = useHistory();
 
   // обработка сабмита регистрации
   const handeleRegisterSubmit = (e) => {
     e.preventDefault();
-    onRegister({ email, password })
+    onRegister({ email, password });
+    resetForm();
   };
 
   // reset email & password
-  React.useEffect(() => {
+  const resetForm = () => {
     setEmail("");
     setPassword("");
-  }, []);
+  };
 
   return (
     <>

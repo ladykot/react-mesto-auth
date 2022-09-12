@@ -2,14 +2,14 @@ import React from "react";
 import union from "../images/Union.svg"
 import unionErr from "../images/Union_err.svg"
 
-function InfoTooltip({ name, isOpen, onClose, isSucess }) {
+function InfoTooltip({ isOpen, onClose, isSucess }) {
   return (
     <section
-      className={`popup popup__info-${name} ${isOpen ? "popup_opened" : ""}`}
+      className={`popup ${isOpen ? "popup_opened" : ""}`}
       onClick={onClose}
     >
       <div
-        className={`popup__container popup__container_${name}`}
+        className={`popup__container`}
         onClick={(e) => {
           e.stopPropagation(); // Прекращает дальнейшую передачу текущего события.
         }}
