@@ -13,14 +13,14 @@ function Header({ userData, onSignOut, loggedIn }) {
       {/* <BrowserRouter> */}
         <Switch>
           <Route path="/signup">
-            <a href="/signin" className="header__mail">
+            <Link to="/signin" className="header__mail">
               Войти
-            </a>
+            </Link>
           </Route>
           <Route path="/signin">
-            <a href="/signup" className="header__mail">
+            <Link to="/signup" className="header__mail">
               Регистрация
-            </a>
+            </Link>
           </Route>
           <Route path="/">
             {loggedIn && <p className="header__mail">{userData}</p>}

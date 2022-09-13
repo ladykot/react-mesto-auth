@@ -37,13 +37,7 @@ function App() {
     isSucess: false,
   }); // состояние окна спеха/неуспеха
 
-  // проверка наличия токена в хранилище при изменении loggedIn
-  React.useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      auth();
-    }
-  });
+
 
   // авторизация и запись токена в хранилище
   const onLogin = ({ email, password }) => {
@@ -82,8 +76,8 @@ function App() {
   };
 
   // Аутотенфикация: если токен валиден, сохраняем данные, и пользователь логинится
-  const auth = async () => {
-    return userAuth.getContent().then((res) => {
+  const auth = async (jwt) => {
+    return userAuth.getContent(jwt).then((res) => {
       // если такой есть, то логинимся
       if (res) {
         setUserdata(res.data.email);
@@ -99,6 +93,16 @@ function App() {
     });;
   };
 
+    // проверка наличия токена в хранилище при изменении loggedIn 
+    React.useEffect(() => {
+      if (!loggedIn) {
+        if (localStorage.getItem('jwt')) {
+        const jwt = localStorage.getItem("jwt");
+        auth(jwt);
+      }
+      }
+    }, [loggedIn]);
+
   // когда пользователь залогинен, отправляем его на main
   // React.useEffect(() => {
   //   if (loggedIn) {
@@ -107,12 +111,14 @@ function App() {
   // }, [history, loggedIn]);
 
   React.useEffect(() => {
-    Promise.all([api.getInitialCards(), api.getProfileData()])
+    if (loggedIn) {
+      Promise.all([api.getInitialCards(), api.getProfileData()])
       .then(([cards, data]) => {
         setCards(cards);
         setCurrentUser(data);
       })
       .catch((err) => console.log(err));
+    }
   }, [loggedIn]);
 
   // при клике на карточку

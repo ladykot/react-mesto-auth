@@ -19,8 +19,8 @@ export const register = (email, password) => {
 };
 
 // взять данные пользователя по токену для вставки в header
-export const getContent = () => {
-  const token = localStorage.getItem('jwt');
+export const getContent = (token) => {
+  // const token = localStorage.getItem('jwt');
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
